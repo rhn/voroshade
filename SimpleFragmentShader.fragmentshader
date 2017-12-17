@@ -1,0 +1,36 @@
+#version 330 core
+
+// Ouput data
+out vec3 color;
+
+in vec4 position;
+
+in Vert {
+    flat vec3 position;
+    flat float value;
+} VecD[3];
+
+void main()
+{
+	vec3 dists;
+	vec3 pos = vec3(position[0], position[1], position[2]);
+    float minDist = distance(VecD[2].position, pos);
+    dists[2] = minDist;
+	for(int i = 0; i < 2; i++) {
+	    dists[i] = distance(VecD[i].position, pos);
+	    minDist = min(dists[i], minDist);
+	}
+	for(int i = 0; i < 3; i++) {
+		if (dists[i] == minDist) {
+		    float v = VecD[i].value;
+		    color = vec3(v, v, v) / 5;
+			v = minDist;
+			//color = vec3(i, i, i) / 3;
+			break;
+		}
+	}
+	//color = vec3(minDist, minDist, minDist);
+	for(int i = 0; i < 3; i++) {
+		//color = vec3((position[0] < 0), position[1], position[2]);
+	}
+}
